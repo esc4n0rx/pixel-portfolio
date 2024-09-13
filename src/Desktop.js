@@ -6,6 +6,7 @@ import mailIcon from './assets/icons/Generic.Mail.png';
 import clockIcon from './assets/icons/Generic.Clock.png';
 import scriptIcon from './assets/icons/Generic.FilmScript.png'; 
 import externalDriveIcon from './assets/icons/device.harddrive-external.png';
+import folderIcon from './assets/icons/Generic.Mail.png'; 
 
 import notionIcon from './assets/icons/Notion.Notion.png';  
 import mapsIcon from './assets/icons/Google.Maps.png';  
@@ -14,50 +15,57 @@ import youtubeIcon from './assets/icons/Google.Youtube.png';
 import edgeIcon from './assets/icons/Microsoft.Edge-Chromium.png'; 
 import calendarIcon from './assets/icons/Generic.Calendar.png';
 
+
+import sampleVideo from './assets/vids/video.mp4';
+
 function Desktop() {
   const [time, setTime] = useState(new Date());
   const [showAboutMe, setShowAboutMe] = useState(false);
   const [showClockWindow, setShowClockWindow] = useState(false);
-  const [positions, setPositions] = useState({}); 
-  const [draggingIcon, setDraggingIcon] = useState(null); 
-  const [windowPosition, setWindowPosition] = useState({ x: 100, y: 100 });
+  const [showVideoPlayer, setShowVideoPlayer] = useState(false); 
+  const [showProjectsWindow, setShowProjectsWindow] = useState(false); 
+
+  // Posições para as janelas
+  const [aboutMePosition, setAboutMePosition] = useState({ x: 150, y: 150 });
+  const [projectsWindowPosition, setProjectsWindowPosition] = useState({ x: 150, y: 150 }); 
+
+  // Dragging states
+  const [dragging, setDragging] = useState(false);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  
+  const [positions, setPositions] = useState({
+    finder: { top: '50px', left: '50px' },
+    email: { top: '150px', left: '50px' },
+    clock: { top: '250px', left: '50px' },
+    aboutMe: { top: '350px', left: '50px' },
+    external: { top: '450px', left: '50px' }
+  });
 
   useEffect(() => {
     const interval = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(interval); 
   }, []);
 
-  useEffect(() => {
-    setPositions({
-      "finder": { top: '50px', left: '50px' },
-      "email": { top: '150px', left: '50px' },
-      "clock": { top: '250px', left: '50px' },
-      "aboutMe": { top: '350px', left: '50px' },
-      "external": { top: '450px', left: '50px' }
-    });
-  }, []);
-
-  const handleDragStart = (e, iconId) => {
-    setDraggingIcon(iconId);
-    e.dataTransfer.setData('text/plain', '');
+  // Funções para arrastar as janelas
+  const handleDragStart = (e, type) => {
+    setDragging(type);
+    if (type === 'aboutMe') {
+      setOffset({ x: e.clientX - aboutMePosition.x, y: e.clientY - aboutMePosition.y });
+    } else if (type === 'projects') {
+      setOffset({ x: e.clientX - projectsWindowPosition.x, y: e.clientY - projectsWindowPosition.y });
+    }
   };
 
-  const handleDragEnd = (e) => {
-    setDraggingIcon(null);
-    setPositions({
-      ...positions,
-      [draggingIcon]: { top: `${e.clientY}px`, left: `${e.clientX}px` }
-    });
+  const onDrag = (e) => {
+    if (dragging === 'aboutMe') {
+      setAboutMePosition({ x: e.clientX - offset.x, y: e.clientY - offset.y });
+    } else if (dragging === 'projects') {
+      setProjectsWindowPosition({ x: e.clientX - offset.x, y: e.clientY - offset.y });
+    }
+  };
 
-    setTimeout(() => {
-      setPositions({
-        "finder": { top: '50px', left: '50px' },
-        "email": { top: '150px', left: '50px' },
-        "clock": { top: '250px', left: '50px' },
-        "aboutMe": { top: '350px', left: '50px' },
-        "external": { top: '450px', left: '50px' }
-      });
-    }, 1000); 
+  const stopDrag = () => {
+    setDragging(false);
   };
 
   const handleAboutMeClick = () => {
@@ -80,13 +88,17 @@ function Desktop() {
     return (unit / max) * 360;
   };
 
+  const handleYouTubeClick = () => {
+    setShowVideoPlayer(true); 
+  };
+
   return (
-    <div className="desktop-container">
+    <div className="desktop-container" onMouseMove={onDrag} onMouseUp={stopDrag}>
       <header className="taskbar">
         <div className="taskbar-left">
           <span>Finder</span>
           <span>Configurações</span>
-          <span>Projetos</span>
+          <span onClick={() => setShowProjectsWindow(true)}>Projetos</span> 
           <span>Sair</span>
         </div>
         <div className="taskbar-right">
@@ -97,13 +109,10 @@ function Desktop() {
       </header>
 
       <div className="desktop-icons">
-        {/* Ícones que podem ser arrastados */}
         <div
           className="icon"
           style={positions.finder}
           draggable
-          onDragStart={(e) => handleDragStart(e, 'finder')}
-          onDragEnd={handleDragEnd}
         >
           <img src={appleFinder} alt="Finder Icon" />
           <p>Finder</p>
@@ -113,8 +122,6 @@ function Desktop() {
           className="icon"
           style={positions.email}
           draggable
-          onDragStart={(e) => handleDragStart(e, 'email')}
-          onDragEnd={handleDragEnd}
         >
           <img src={mailIcon} alt="Mail Icon" />
           <p>Email</p>
@@ -124,9 +131,7 @@ function Desktop() {
           className="icon"
           style={positions.clock}
           draggable
-          onDragStart={(e) => handleDragStart(e, 'clock')}
-          onDragEnd={handleDragEnd}
-          onClick={handleClockClick}  // Abrir janela do relógio
+          onClick={handleClockClick}  
         >
           <img src={clockIcon} alt="Clock Icon" />
           <p>Relógio</p>
@@ -136,8 +141,6 @@ function Desktop() {
           className="icon"
           style={positions.aboutMe}
           draggable
-          onDragStart={(e) => handleDragStart(e, 'aboutMe')}
-          onDragEnd={handleDragEnd}
           onClick={handleAboutMeClick}
         >
           <img src={scriptIcon} alt="Sobre Mim Icon" />
@@ -148,8 +151,6 @@ function Desktop() {
           className="icon"
           style={positions.external}
           draggable
-          onDragStart={(e) => handleDragStart(e, 'external')}
-          onDragEnd={handleDragEnd}
         >
           <img src={externalDriveIcon} alt="External Drive" />
           <p>Disco Externo</p>
@@ -166,7 +167,7 @@ function Desktop() {
         <div className="dock-icon">
           <img src={whatsappIcon} alt="WhatsApp Icon" />
         </div>
-        <div className="dock-icon">
+        <div className="dock-icon" onClick={handleYouTubeClick}>
           <img src={youtubeIcon} alt="YouTube Icon" />
         </div>
         <div className="dock-icon">
@@ -177,10 +178,29 @@ function Desktop() {
         </div>
       </footer>
 
+
+      {showVideoPlayer && (
+        <div className="video-player-window">
+          <header className="window-header">
+            <div className="window-controls">
+              <span className="close" onClick={() => setShowVideoPlayer(false)}>X</span>
+            </div>
+            <h3>Player de Vídeo</h3>
+          </header>
+          <div className="window-content">
+            <video width="320" height="240" controls autoPlay>
+              <source src={sampleVideo} type="video/mp4" />
+              Seu navegador não suporta o elemento de vídeo.
+            </video>
+          </div>
+        </div>
+      )}
+
       {showAboutMe && (
         <div 
           className="about-me-window"
-          style={{ left: windowPosition.x, top: windowPosition.y }}
+          style={{ left: aboutMePosition.x, top: aboutMePosition.y }}
+          onMouseDown={(e) => handleDragStart(e, 'aboutMe')}
         >
           <header className="window-header">
             <div className="window-controls">
@@ -191,7 +211,7 @@ function Desktop() {
             <h3>Sobre Mim</h3>
           </header>
           <div className="window-content">
-            <p>Olá, meu nome é Paulo Oliveira,</p>
+            <p>Olá, meu nome é Paulo Oliveira, sou desenvolvedor Full Stack Júnior com experiência em Python, React, Node.js, Git, e Kubernetes. Sempre focado em aprender e crescer!</p>
           </div>
         </div>
       )}
@@ -218,6 +238,35 @@ function Desktop() {
                 className="clock-hand second-hand"
                 style={{ transform: `rotate(${getRotation(time.getSeconds(), 60)}deg)` }}
               ></div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showProjectsWindow && (
+        <div 
+          className="projects-window"
+          style={{ left: projectsWindowPosition.x, top: projectsWindowPosition.y }}
+          onMouseDown={(e) => handleDragStart(e, 'projects')}
+        >
+          <header className="window-header">
+            <div className="window-controls">
+              <span className="close" onClick={() => setShowProjectsWindow(false)}>X</span>
+            </div>
+            <h3>Projetos</h3>
+          </header>
+          <div className="window-content">
+            <div className="project-icon" onClick={() => window.open('https://github.com/seu-projeto1', '_blank')}>
+              <img src={folderIcon} alt="Projetos com IA" />
+              <p>Projetos com IA</p>
+            </div>
+            <div className="project-icon" onClick={() => window.open('https://github.com/seu-projeto2', '_blank')}>
+              <img src={folderIcon} alt="Colheita Certa" />
+              <p>Colheita Certa</p>
+            </div>
+            <div className="project-icon" onClick={() => window.open('https://github.com/seu-projeto3', '_blank')}>
+              <img src={folderIcon} alt="Sistema de ERP" />
+              <p>Sistema de ERP</p>
             </div>
           </div>
         </div>

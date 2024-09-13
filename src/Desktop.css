@@ -130,6 +130,7 @@
   align-items: center;
   font-size: 12px;
 }
+
 .clock-content {
   padding: 20px;
   display: flex;
@@ -144,25 +145,95 @@
   border-radius: 50%;
   position: relative;
 }
+
 .clock-hand {
   position: absolute;
   width: 2px;
-  height: 50%;
   background-color: black;
-  top: 25%;
+  top: 50%;
   left: 50%;
   transform-origin: bottom;
+  transform: translateX(-50%);
 }
 
 .hour-hand {
-  height: 35%;
+  height: 30%;
+  background-color: black;
 }
 
 .minute-hand {
-  height: 45%;
+  height: 40%;
+  background-color: black;
 }
 
 .second-hand {
-  height: 50%;
+  height: 45%;
   background-color: red;
+}
+
+.projects-window {
+  position: absolute;
+  width: 400px;
+  height: 300px;
+  background-color: #fff;
+  border: 2px solid black;
+  z-index: 10;
+  overflow: hidden; /* Para garantir que o conteúdo não saia da janela */
+  display: flex;
+  flex-direction: column;
+}
+
+.window-header {
+  background-color: #000;
+  color: white;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+
+.window-content {
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Cria uma grade de 2 colunas */
+  grid-gap: 20px;
+  justify-items: center;
+  align-items: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  text-align: center;
+}
+
+.project-icon {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.project-icon img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 5px;
+  filter: grayscale(100%);
+}
+
+.project-icon p {
+  margin: 0;
+  font-size: 10px;
+}
+.video-player-window {
+  position: absolute;
+  width: 350px;
+  height: 300px;
+  background-color: #fff;
+  border: 2px solid black;
+  z-index: 10;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  display: flex;
+  flex-direction: column;
 }
