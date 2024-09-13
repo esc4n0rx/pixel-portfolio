@@ -1,70 +1,31 @@
-# Getting Started with Create React App
+# Projeto Desktop Interface - React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este é um projeto de uma interface de desktop estilizada, inspirada no design clássico do Macintosh. Ele inclui ícones arrastáveis, janelas interativas e elementos como relógios e players de vídeo que abrem dentro de janelas personalizadas.
 
-## Available Scripts
+## Funcionalidades
+- **Ícones arrastáveis**: Os ícones no desktop podem ser arrastados para diferentes posições.
+- **Janelas interativas**: Ao clicar em determinados ícones ou botões, janelas personalizadas são abertas.
+  - **Sobre Mim**: Exibe uma janela com informações pessoais.
+  - **Relógio**: Exibe um relógio analógico funcional.
+  - **Projetos**: Exibe uma janela com links para projetos hospedados no GitHub.
+  - **Player de vídeo**: Exibe um player de vídeo para reproduzir um arquivo de vídeo dentro do projeto.
+- **Dock de aplicativos**: Inclui ícones de aplicativos populares (Notion, WhatsApp, YouTube, etc.).
+  
+## Tecnologias Utilizadas
+- **React**: Framework para construir a interface do usuário.
+- **CSS**: Para estilizar os componentes e janelas.
+- **JavaScript**: Lógica para interação com a interface, como movimentação de ícones e controle das janelas.
 
-In the project directory, you can run:
+## Estrutura de Arquivos
 
-### `npm start`
+- **/assets/icons/**: Ícones usados para representar os aplicativos e pastas.
+- **/assets/vids/**: Arquivos de vídeo que podem ser reproduzidos no player de vídeo.
+- **Desktop.js**: Componente principal que gerencia o desktop, janelas e ícones.
+- **Desktop.css**: Arquivo de estilos que define o layout e a aparência da interface.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Melhorias Futuras
+Adicionar novas funções aos outros icones.
+Criar elementos usaveis dentro do sistema , exemplo um jogo de tretris.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
